@@ -95,7 +95,7 @@ a{
     border-style: none;
 }
 .container .form--container{
-    width: 50%;
+    width: 100%;
 }
 .content-center{
     justify-content: center !important;

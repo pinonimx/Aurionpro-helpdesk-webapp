@@ -25,6 +25,10 @@ function FormError(props){
     );
 }
 class FormLogin extends React.Component {
+    _onClick = (e) => {
+        e.preventDefault();
+        this.props.handleClick();
+    }
     render() {
         return (
             <form className={this.props.classadd} >
@@ -37,13 +41,17 @@ class FormLogin extends React.Component {
                     <a className="form--link" href="#" >Forgot your password?</a>
                 </p>
                 <p className="form--text">
-                    <a className="form--link" href="./" id="linkcreateaccount" >Don't have an account? Create account</a>
+                    <a className="form--link" href="./" id="linkcreateaccount" onClick={e => this._onClick(e)} >Don't have an account? Create account</a>
                 </p>
             </form>
         );
     }
 }
 class FormCreateAccount extends React.Component{
+    _onClick = (e) => {
+        e.preventDefault();
+        this.props.handleClick();
+    }
     render() {
         return (
             <form className={this.props.classadd}>
@@ -55,7 +63,7 @@ class FormCreateAccount extends React.Component{
                 <Form__Input type="password" pholder="Confirm password" />
                 <button className="form--button" type="submit">Continue</button>
                 <p className="form--text">
-                    <a className="form--link" href="./" id="linklogin" >Already have an account? Sign in</a>
+                    <a className="form--link" href="./" id="linklogin" onClick={e => this._onClick(e)} >Already have an account? Sign in</a>
                 </p>
             </form>
         );
@@ -66,10 +74,31 @@ class Page extends React.Component {
         super(props);
         this.state = {
             loginclassadd: "form",
-            id1: "linkcreateaccount",
+            loginisActive: true,
             signupclassadd: "form form--hidden",
-            id: "linklogin",
+            signupIsActive: false,
         };
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick(){
+        const loginclassadd = this.state.loginclassadd;
+        const signupclassadd = this.state.signupclassadd;
+        if(this.state.loginisActive && !this.state.signupIsActive){
+            this.setState({
+                loginclassadd: loginclassadd.concat(" ", "form--hidden"),
+                loginisActive: !this.state.loginisActive,
+                signupclassadd: signupclassadd.replace(" form--hidden", ""),
+                signupIsActive: !this.state.signupIsActive,                
+            });
+        }
+        else if(this.state.signupIsActive && !this.state.loginisActive){
+            this.setState({
+                loginclassadd: loginclassadd.replace(" form--hidden", ""),
+                loginisActive: !this.state.loginisActive,
+                signupclassadd: signupclassadd.concat(" ", "form--hidden"),
+                signupIsActive: !this.state.signupIsActive,                
+            });
+        }
     }
     render() {
         return (
@@ -84,8 +113,8 @@ class Page extends React.Component {
                         </div>
                         <div className="page--table--column form--container">
                             <div className="page--table content-center">
-                                <FormLogin classadd={this.state.loginclassadd} />
-                                <FormCreateAccount classadd={this.state.signupclassadd} />
+                                <FormLogin classadd={this.state.loginclassadd} handleClick={this.handleClick} />
+                                <FormCreateAccount classadd={this.state.signupclassadd} handleClick={this.handleClick} />
                             </div>
                         </div>
                     </div>
