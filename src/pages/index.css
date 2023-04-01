@@ -9,7 +9,6 @@
 
 body{
     background-color: #f8fafb;
-    background-image: url(./Home-Hero.jpg);
     margin: 0;
     padding: 0px;
     font-family: "Poppins", sans-serif;
@@ -24,6 +23,7 @@ a{
 }
 .container{
     padding-top: 0;
+    background-image: url(./Home-Hero.jpg);
     padding-bottom: 7rem;
     padding-left: 0;
     padding-right: 0;
