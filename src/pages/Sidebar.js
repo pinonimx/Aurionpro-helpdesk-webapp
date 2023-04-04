@@ -60,7 +60,7 @@ function Profile(props){
       {popUpMenu && PopUpMenu()}
       <button className="profile" onClick={ () => setPopUpMenu(!popUpMenu) } >
           <div className="profile-img">
-              <img src={props.img} alt="profile" />
+              <img src={props.profiledata.img} alt="profile" />
           </div>
           <div className="name">
               <h1>{props.profiledata.name}</h1>
@@ -77,7 +77,7 @@ function Sidebar(props) {
         <img src={cimg} alt="logo"></img>
       </a>
       <Menu menudata={props.menudata} />
-      <Profile profiledata={props.profiledata[0]} img={props.img} />
+      <Profile profiledata={props.profiledata[0]} />
     </div>
   );
 }

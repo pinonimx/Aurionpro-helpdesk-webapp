@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Table from './Table';
-import logo from './logo.svg'
+import logo from 'siddharth.jpg';
 import './user.css';
 
 function MainHome(props){
@@ -22,7 +22,7 @@ function User() {
   ];
 
   const profiledata = [
-    {name: "Siddharth Kumar Jha", stat: "Employee"}
+    {name: "Siddharth Kumar Jha", stat: "Employee", img: logo}
   ];
   
   const tabledata = [
@@ -34,7 +34,7 @@ function User() {
 
   return (
     <div className="container-new">
-      <Sidebar menudata={menudata} profiledata={profiledata} img={logo}/>
+      <Sidebar menudata={menudata} profiledata={profiledata} />
       <MainHome tabledata={tabledata}/>
     </div>
   );
