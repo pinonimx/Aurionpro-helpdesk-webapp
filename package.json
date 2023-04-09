@@ -2,6 +2,7 @@
   "name": "login-signup-form",
   "version": "0.1.0",
   "private": true,
+  "author": "Siddharth Kumar Jha <siddharthkjha6909@gmail.com>",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

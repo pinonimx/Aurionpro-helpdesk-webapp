@@ -1,5 +1,5 @@
 import React from 'react';
-import cimg from './aurionpro-Logo_Color-1-01_Aurionpro-Logo-2022-color-black.svg';
+import cimg from '../../assets/aurionpro-Logo_Color-1-01_Aurionpro-Logo-2022-color-black.svg';
 
 function Menuitems(props){
   return(
@@ -42,14 +42,16 @@ function PopUpMenu(){
     {msg: "Profile Settings", iconclass: "ri-user-settings-line"},
   ];
   return(
-    <ul className="drop--down">
-      <li>
-        <PopUpMenuitems data={menudata[0]} />
-      </li>
-      <li>
-        <PopUpMenuitems data={menudata[1]} />
-      </li>
-    </ul>
+    <div className='drop--down--div'>
+      <ul className="drop--down">
+        <li>
+          <PopUpMenuitems data={menudata[0]} />
+        </li>
+        <li>
+          <PopUpMenuitems data={menudata[1]} />
+        </li>
+      </ul>
+    </div>
   );
 }
 

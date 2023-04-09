@@ -1,19 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
-import image from './computer.svg';
-import cimg from './aurionpro-Logo_Color-1-01_Aurionpro-Logo-2022-color-.svg';
+import image from '../assets/computer.svg';
+import cimg from '../assets/aurionpro-Logo_Color-1-01_Aurionpro-Logo-2022-color-.svg';
 
-function Form__Input__error(props){
+function FormInputerror(props){
     return (
         <div className="form--input--error--message">{props.message}</div>
     );
 }
-function Form__Input(props) {
+function FormInput(props) {
         return (
             <div className="form--input--group">
                 <input type={props.type} className="form--input" autoFocus placeholder={props.pholder}></input>
-                <Form__Input__error message="Username must be at least 10 characters in length"/>
+                <FormInputerror message="Username must be at least 10 characters in length"/>
             </div>
         );
 }
@@ -36,8 +36,8 @@ function FormLogin(props)  {
         <form className={props.classadd} onSubmit={e => handleSubmit(e)} >
             <h1 className="form--title">Login</h1>
             <FormError message="Invalid Login Id/Password"/>
-            <Form__Input type="text" pholder="Username or email"/>
-            <Form__Input type="password" pholder="Password" />
+            <FormInput type="text" pholder="Username or email"/>
+            <FormInput type="password" pholder="Password" />
             <button className="form--button" type="submit">Continue</button>
             <p className="form--text">
                 <a className="form--link" href="#" >Forgot your password?</a>
@@ -57,10 +57,10 @@ function FormCreateAccount(props) {
             <form className={props.classadd}>
                 <h1 className="form--title">Create Account</h1>
                 <FormError message="Invalid Login Id/Password"/>
-                <Form__Input type="text" pholder="Username or email"/>
-                <Form__Input type="text" pholder="EmailAddress"/>
-                <Form__Input type="password" pholder="Password" />
-                <Form__Input type="password" pholder="Confirm password" />
+                <FormInput type="text" pholder="Username or email"/>
+                <FormInput type="text" pholder="EmailAddress"/>
+                <FormInput type="password" pholder="Password" />
+                <FormInput type="password" pholder="Confirm password" />
                 <button className="form--button" type="submit">Continue</button>
                 <p className="form--text">
                     <a className="form--link" href="./" id="linklogin" onClick={e => _onClick(e)} >Already have an account? Sign in</a>

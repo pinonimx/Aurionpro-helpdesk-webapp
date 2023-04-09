@@ -66,8 +66,8 @@ function Dataentry(){
                 </div>
                 <ReactQuill modules={modules} onChange={setValue} theme='snow' placeholder='Describe your issue in detail here...' />
                 <div className='dataentry--footer'>
-                    <button className="button-26" role="button">Create</button>
-                    <button className="button-6" role="button">Cancel</button>
+                    <button className="button-26" >Create</button>
+                    <button className="button-6" >Cancel</button>
                 </div>
             </div>
         </div>
