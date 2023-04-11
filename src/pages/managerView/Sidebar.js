@@ -1,17 +1,50 @@
 import React from 'react';
 import cimg from '../../assets/aurionpro-Logo_Color-1-01_Aurionpro-Logo-2022-color-black.svg';
 
+function PopUpSubMenu(props){
+  return(
+    <div className=''>
+      <ul className="">
+        {props.menudata.map((val, key) => {
+          return(
+            <li key={key}>
+              <PopUpMenuitems data={val} handleClick={props.handleClick}/>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
 function Menuitems(props){
+  const menupopqueue = [
+    {msg: 'View entire queue'},
+    {msg: 'All open issues'},
+    {msg: 'All unassigned issues'},
+    {msg: 'Assigned to me'},
+    {msg: 'All resolved issues'},
+    {msg: 'All issues on hold'}
+  ];
+
+  const [popUpMenu, setPopUpMenu] = React.useState(false);
+  const _onClick = (e, val) => {
+    e.preventDefault();
+    props.handleClick(val);
+    {val === 'Queues' ? setPopUpMenu(!popUpMenu) : setPopUpMenu(false)};
+  }
   return(
     <div>
       {props.data.map((val, key) => {
         return(
-          <a href="#" key={key}>
-            <span className='icon'>
-              <i className={val.iconclass}></i>
-            </span>
-            {val.msg}
-          </a>
+          <div key={key}>
+            <a href="#" key={key} onClick={e => _onClick(e, val.msg)}>
+              <span className='icon'>
+                <i className={val.iconclass}></i>
+              </span>
+              {val.msg}
+            </a>
+            {val.msg === 'Queues' ? popUpMenu && <PopUpSubMenu menudata={menupopqueue} handleClick={props.handleClick}/> : <div>{undefined}</div>}
+          </div>
         )
       })}
     </div>
@@ -19,11 +52,32 @@ function Menuitems(props){
 }
 
 function PopUpMenuitems(props) {
+  const _onClick = (e, val) => {
+    e.preventDefault();
+    if(val === 'View entire queue'){
+      props.handleClick('View all');
+    }
+    else if(val === 'All open issues'){
+      props.handleClick('In Progress');
+    }
+    else if(val === 'All unassigned issues'){
+      props.handleClick('NA');
+    }
+    else if(val === 'Assigned to me'){
+      props.handleClick('me');
+    }
+    else if(val === 'All resolved issues'){
+      props.handleClick('Resolved');
+    }
+    else{
+      props.handleClick('On Hold');
+    }
+  }
   return (
-    <a href="#">
-      <span className='icon'>
+    <a href="#" onClick={e => _onClick(e, props.data.msg)}>
+      {props.data.iconclass ? <span className='icon'>
         <i className={props.data.iconclass}></i>
-      </span>
+      </span> : <span>{undefined}</span>}
       {props.data.msg}
     </a>
   );
@@ -31,7 +85,7 @@ function PopUpMenuitems(props) {
 function Menu(props) {
   return(
     <div className="menu">
-      <Menuitems data={props.menudata} />
+      <Menuitems data={props.menudata} handleClick={props.handleClick} />
     </div>
   );
 }
@@ -78,7 +132,7 @@ function Sidebar(props) {
       <a href="#" className="logo">
         <img src={cimg} alt="logo"></img>
       </a>
-      <Menu menudata={props.menudata} />
+      <Menu menudata={props.menudata} handleClick={props.handleClick}/>
       <Profile profiledata={props.profiledata[0]} />
     </div>
   );
