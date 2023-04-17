@@ -18,12 +18,12 @@ function PopUpSubMenu(props){
 }
 function Menuitems(props){
   const menupopqueue = [
-    {msg: 'View entire queue'},
     {msg: 'All open issues'},
     {msg: 'All unassigned issues'},
     {msg: 'Assigned to me'},
+    {msg: 'All issues on hold'},
     {msg: 'All resolved issues'},
-    {msg: 'All issues on hold'}
+    {msg: 'View entire queue'},
   ];
 
   const [popUpMenu, setPopUpMenu] = React.useState(false);
@@ -54,17 +54,11 @@ function Menuitems(props){
 function PopUpMenuitems(props) {
   const _onClick = (e, val) => {
     e.preventDefault();
-    if(val === 'View entire queue'){
-      props.handleClick('View all');
+    if(val === 'View entire queue' || val === 'All unassigned issues' || val === 'Assigned to me'){
+      props.handleClick(val);
     }
     else if(val === 'All open issues'){
       props.handleClick('In Progress');
-    }
-    else if(val === 'All unassigned issues'){
-      props.handleClick('NA');
-    }
-    else if(val === 'Assigned to me'){
-      props.handleClick('me');
     }
     else if(val === 'All resolved issues'){
       props.handleClick('Resolved');

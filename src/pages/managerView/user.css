@@ -4,10 +4,6 @@
   padding-top: 15px;
   padding-left: 15px;
 }
-:root{
-  --gradient:linear-gradient(to right,#e2336b,#fcac46);
-
-}
 .sidebar{
   position: fixed;
   width: 284px;
@@ -537,4 +533,80 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
 }
 .drop--down--table  .card--bottom--border{
   background: #fff;
+}
+.options--container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.options--container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+.options--container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.options--container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.options--container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.options--container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.options--container--div{
+  display: flex;
+  flex-direction: row;
+}
+.card--top--bar--margin {
+  margin-top: 2.5rem;
+}
+.option--container--superdiv{
+  display: flex;
+  flex-direction: column;
+}
+.option--container--superdiv > input{
+  margin-bottom: 4px;
+  font-size: 1rem;
+  padding: 5px 3px;
 }

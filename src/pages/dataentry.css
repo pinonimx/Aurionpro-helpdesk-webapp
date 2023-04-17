@@ -8,18 +8,33 @@
   background-size: cover;
 }
 .dataentry--css {
-  width: 700px;
-  max-width: 1000px;
+  width: calc(100% - 32px);
   margin: 1rem;
   padding: 2rem;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
   background: #ffffff;
+  overflow: auto;
 }
+
+.dataentry--css::-webkit-scrollbar{
+  width: 6px;
+  height: 6px;
+}
+.dataentry--css::-webkit-scrollbar-track{
+  background: #f8f8f8;
+}
+.dataentry--css::-webkit-scrollbar-thumb{
+  background: #888;
+  border-radius: 6px;
+}
+.dataentry--css::-webkit-scrollbar-thumb:hover{
+  background: #555;
+}
+
 .dataentry--summary{
   margin: 30px 0px;
 }
-.dataentry--summary > input{
+.dataentry--summary > input,
+.card--bottom--border > .page--table > .page--column--right > input{
   width: 100%;
   font-size: 14px;
   padding: 7px 40px 7px 12px;
@@ -29,6 +44,7 @@
   box-shadow: 0 1px 3px -2px #9098A9;
 }
 .dataentry--summary > p,
+.dataentry--css > p,
 label{
   margin: 0;
   border: 0;
@@ -37,6 +53,7 @@ label{
   font-size: 15px;
 }
 .dataentry--summary > p > em,
+.dataentry--css > p > em,
 label > em {
   color: #f00;
 }
@@ -181,4 +198,35 @@ select option:focus{
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
+}
+.dataentry--issue--type{
+  margin: 0px 0px 30px 0;
+}
+.quill{
+  margin: 0px 0px 30px 0;
+}
+.main--home > .dataentry--css > .card--bottom--border > div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.page--column--left,
+.page--column--right{
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.page--column--right{
+  width: 85%;
+  height: 100%;
+}
+.page--column--left{
+  width: 11%;
+  height: 100%;
+}
+.card--bottom--border > .page--table > .page--column--right > input{
+  margin: 0px 0px 12px 0px;
+}
+.card--bottom--border > .page--table > .page--column--left > h4{
+  margin: 22px 0px;
 }
