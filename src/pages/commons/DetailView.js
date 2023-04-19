@@ -55,8 +55,8 @@ function Card(props){
           <div className='page--table--column'>
             <div className='card--bottom--border'>
               <h4>Status</h4>
-              <div className={props.details.stat.trim() === 'On Hold' ? 'onhold' : props.details.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
-                <p>{props.details.stat.trim() === 'Resolved' ? <i className="ri-checkbox-circle-line"></i> : props.details.stat.trim() === 'On Hold' ? <i className="ri-timer-line"></i> : <i className="ri-contrast-fill"></i>} {props.details.stat}</p>
+              <div className={props.details.stat.trim() === 'Waiting for support' ? 'waiting' : props.details.stat.trim() === 'On Hold' ? 'onhold' : props.details.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
+                <p>{props.details.stat.trim() === 'Waiting for support' ? <i className="ri-hourglass-2-fill"></i> : props.details.stat.trim() === 'Resolved' ? <i className="ri-checkbox-circle-line"></i> : props.details.stat.trim() === 'On Hold' ? <i className="ri-timer-line"></i> : <i className="ri-contrast-fill"></i>} {props.details.stat}</p>
               </div>
             </div>
             <div className='card--bottom--border'>
@@ -149,7 +149,7 @@ export function Linked(props){
                 <td>{props.handleClick ? <button className='button-48' onClick={() => props.handleClick(key)}><span className='text'>{val.title}</span></button> : val.title}</td>
                 <td>{val.personName}</td>
                 <td>
-                  <div className={val.stat.trim() === 'On Hold' ? 'onhold' : val.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
+                  <div className={val.stat.trim() === 'Waiting for support' ? 'waiting' : val.stat.trim() === 'On Hold' ? 'onhold' : val.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
                     <p>{val.stat.trim() === 'Resolved' ? <i className="ri-checkbox-circle-line"></i> : val.stat.trim() === 'On Hold' ? <i className="ri-timer-line"></i> : <i className="ri-contrast-fill"></i>} {val.stat}</p>
                   </div>
                 </td>

@@ -1,7 +1,16 @@
 import React from 'react';
+import nothingtosee from '../../assets/2903540.webp';
 
-
+function Nothing(){
+  return(
+    <div className='table--data table--nothinghere'>
+      <img src={nothingtosee} alt='nothing to see here' />
+      <p>Nothing to see here...</p>
+    </div>
+  );
+}
 function Table(props) {
+  if(props.tabledata[0]){
   return(
     <div className='table--data'>
       <table cellPadding={7} cellSpacing={0} >
@@ -30,8 +39,8 @@ function Table(props) {
                 <td>{val.bankName}</td>
                 <td><button className='button-48' onClick={() => props.handleClick(key)}><span className='text'>{val.title}</span></button></td>
                 <td>
-                  <div className={val.stat.trim() === 'On Hold' ? 'onhold' : val.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
-                    <p>{val.stat.trim() === 'Resolved' ? <i className="ri-checkbox-circle-line"></i> : val.stat.trim() === 'On Hold' ? <i className="ri-timer-line"></i> : <i className="ri-contrast-fill"></i>} {val.stat}</p>
+                  <div className={val.stat.trim() === 'Waiting for support' ? 'waiting' : val.stat.trim() === 'On Hold' ? 'onhold' : val.stat.trim() === 'Resolved' ? 'resol' : 'inprog'}>
+                    <p>{val.stat.trim() === 'Waiting for support' ? <i className="ri-hourglass-2-fill"></i> : val.stat.trim() === 'Resolved' ? <i className="ri-checkbox-circle-line"></i> : val.stat.trim() === 'On Hold' ? <i className="ri-timer-line"></i> : <i className="ri-contrast-fill"></i>} {val.stat}</p>
                   </div>
                   
                 </td>
@@ -43,5 +52,8 @@ function Table(props) {
       </table>
     </div>
   );
+  } else {
+    return(<Nothing />);
+  }
 }
 export default Table;

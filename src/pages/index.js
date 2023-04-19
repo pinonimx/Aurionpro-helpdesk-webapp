@@ -30,7 +30,7 @@ function FormLogin(props)  {
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/user');
+        navigate('/manager');
     }
     return (
         <form className={props.classadd} onSubmit={e => handleSubmit(e)} >

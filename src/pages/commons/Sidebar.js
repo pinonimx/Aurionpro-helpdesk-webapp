@@ -17,15 +17,6 @@ function PopUpSubMenu(props){
   );
 }
 function Menuitems(props){
-  const menupopqueue = [
-    {msg: 'All open issues'},
-    {msg: 'All unassigned issues'},
-    {msg: 'Assigned to me'},
-    {msg: 'All issues on hold'},
-    {msg: 'All resolved issues'},
-    {msg: 'View entire queue'},
-  ];
-
   const [popUpMenu, setPopUpMenu] = React.useState(false);
   const _onClick = (e, val) => {
     e.preventDefault();
@@ -43,7 +34,7 @@ function Menuitems(props){
               </span>
               {val.msg}
             </a>
-            {val.msg === 'Queues' ? popUpMenu && <PopUpSubMenu menudata={menupopqueue} handleClick={props.handleClick}/> : <div>{undefined}</div>}
+            {val.msg === 'Queues' ? popUpMenu && <PopUpSubMenu menudata={props.menupopqueue} handleClick={props.handleClick}/> : <div>{undefined}</div>}
           </div>
         )
       })}
@@ -54,17 +45,17 @@ function Menuitems(props){
 function PopUpMenuitems(props) {
   const _onClick = (e, val) => {
     e.preventDefault();
-    if(val === 'View entire queue' || val === 'All unassigned issues' || val === 'Assigned to me'){
-      props.handleClick(val);
-    }
-    else if(val === 'All open issues'){
+    if(val === 'All issues in progress'){
       props.handleClick('In Progress');
     }
     else if(val === 'All resolved issues'){
       props.handleClick('Resolved');
     }
-    else{
+    else if(val === 'All issues on hold'){
       props.handleClick('On Hold');
+    }
+    else {
+      props.handleClick(val);
     }
   }
   return (
@@ -79,7 +70,7 @@ function PopUpMenuitems(props) {
 function Menu(props) {
   return(
     <div className="menu">
-      <Menuitems data={props.menudata} handleClick={props.handleClick} />
+      <Menuitems data={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue}/>
     </div>
   );
 }
@@ -126,7 +117,7 @@ function Sidebar(props) {
       <a href="#" className="logo">
         <img src={cimg} alt="logo"></img>
       </a>
-      <Menu menudata={props.menudata} handleClick={props.handleClick}/>
+      <Menu menudata={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue}/>
       <Profile profiledata={props.profiledata[0]} />
     </div>
   );
