@@ -4,6 +4,7 @@ import Page from './pages';
 import ManagerView from './pages/managerView/index';
 import Dataentry from './pages/Dataentry';
 import EmployeeView from './pages/employeeView';
+import UserView from './pages/userView';
   
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Route path='/manager' element={<ManagerView />} />
             <Route path='/dataentry' element={<Dataentry />} />
             <Route path='/employee' element={<EmployeeView />} />
+            <Route path='/user' element={<UserView />} />
         </Routes>
         </Router>
     );

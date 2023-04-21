@@ -32,7 +32,7 @@ export default function ManagerView() {
 
   const [filteredIssues, setFilteredIssues] = React.useState(
     sampletabledata.reduce(function (val, key){
-      if(key.stat.trim() === 'In Progress'){
+      if(key.stat.trim() === 'Waiting for support'){
         val.push(key)
       }
       return val;
@@ -82,7 +82,7 @@ export default function ManagerView() {
   return (
     <div className="container-new">
       <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue}/>
-      {mainPageState2 === 'Raise a request' ? <RaiseARequest /> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} /> : <Reports data={sampletabledata} />}
+      {mainPageState2 === 'Raise a request' ? <RaiseARequest stat={profiledata[0].stat}/> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} stat={profiledata[0].stat}/> : <Reports data={sampletabledata} />}
     </div>
   );
 

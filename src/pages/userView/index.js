@@ -7,26 +7,24 @@ import RaiseARequest from "../commons/RaiseARequest";
 import Reports from "../commons/Reports";
 import data from '../../assets/Data.json';
 
-export default function EmployeeView(){
+export default function UserView(){
   const menudata = [
     {msg: 'Reports', iconclass: "ri-file-chart-line"},
     {msg: 'Queues', iconclass: "ri-dashboard-line"},
     {msg: 'Raise a request', iconclass: "ri-inbox-unarchive-line"},
   ];
   const profiledata = [
-    {name: "Siddharth Kumar Jha", stat: "Employee", img: logo}
+    {name: "Pavitran", stat: "Customer", img: logo}
   ];
   const menupopqueue = [
-    {msg: 'Waiting for support'},
     {msg: 'All issues in progress'},
-    {msg: 'All unassigned issues'},
-    {msg: 'Assigned to me'},
+    {msg: 'Waiting for support'},
     {msg: 'All issues on hold'},
     {msg: 'All resolved issues'},
     {msg: 'View entire queue'},
   ];
   const sampletabledata = data.reduce(function (val, key){
-          if(key.assignto.trim() === '' || key.assignto.trim() === profiledata[0].name){
+          if(key.personName.trim() === profiledata[0].name){
             val.push(key)
           }
           return val;
@@ -34,7 +32,7 @@ export default function EmployeeView(){
 
   const [filteredIssues, setFilteredIssues] = React.useState(
     sampletabledata.reduce(function (val, key){
-      if(key.stat.trim() === 'Waiting for support'){
+      if(key.stat.trim() === 'In Progress'){
         val.push(key)
       }
       return val;
@@ -45,7 +43,7 @@ export default function EmployeeView(){
   const handleMainPageState = (e) => {
     if(e === 'Queues'){
       setMainPageState2(e);
-      e = 'Waiting for support';
+      e = 'In Progress';
       setMainPageState(e);
     } else if( e === 'Reports' || e === 'Raise a request') {
       setMainPageState2(e);
@@ -53,38 +51,20 @@ export default function EmployeeView(){
     } else {
       setMainPageState(e);
     }
-    if(e === 'All unassigned issues'){
-      setFilteredIssues(sampletabledata.reduce(function (val, key){
-        if(key.assignto.trim() === ''){
-          val.push(key)
+    
+    setFilteredIssues(sampletabledata.reduce(function (val, key){
+        if(key.stat.trim() === e){
+        val.push(key)
         }
         return val;
-      }, [])
-      );
-    }
-    else if(e === 'Assigned to me'){
-      setFilteredIssues(sampletabledata.reduce(function (val, key){
-        if(key.assignto.trim() === profiledata[0].name && (key.stat.trim() === 'Waiting for support' || key.stat.trim() === 'In Progress')){
-          val.push(key)
-        }
-        return val;
-      }, [])
-      );
-    }
-    else {
-      setFilteredIssues(sampletabledata.reduce(function (val, key){
-          if(key.stat.trim() === e){
-            val.push(key)
-          }
-          return val;
-        }, [])
-      );
-    }
+    }, [])
+    );
+    
   }
   return (
     <div className="container-new">
       <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue}/>
-      {mainPageState2 === 'Raise a request' ? <RaiseARequest stat={profiledata[0].stat}/> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} stat={profiledata[0].stat} /> : <Reports data={data} />}
+      {mainPageState2 === 'Raise a request' ? <RaiseARequest stat={profiledata[0].stat}/> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} stat={profiledata[0].stat} /> : <Reports data={sampletabledata} stat={true} />}
     </div>
   );
 }

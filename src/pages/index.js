@@ -10,10 +10,24 @@ function FormInputerror(props){
     );
 }
 function FormInput(props) {
+    const [msg, setMsg] = React.useState('');
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var regexPattern = /^[a-zA-Z0-9]+$/;
+    const blur = (e) => {
+        if(e.target.id === 'signupUsername' && e.target.value.trim().length > 0 && !regexPattern.test(e.target.value.trim())){
+            setMsg("Invalid user name");
+        }
+        if(e.target.id === 'signupEmail' && e.target.value.trim().length > 0 && !mailformat.test(e.target.value)){
+            setMsg("Invalid email format");
+        }
+    };
+    const focus = () => {
+        setMsg('');
+    }
         return (
             <div className="form--input--group">
-                <input type={props.type} className="form--input" autoFocus placeholder={props.pholder}></input>
-                <FormInputerror message="Username must be at least 10 characters in length"/>
+                <input type={props.type} id={props.id ? props.id : ''} className="form--input" autoFocus placeholder={props.pholder} onFocus={() => focus()} onBlur={(e) => blur(e)} ></input>
+                {msg.trim() === '' ? <div>{null}</div> : <FormInputerror message={msg}/>}
             </div>
         );
 }
@@ -31,11 +45,14 @@ function FormLogin(props)  {
     const handleSubmit = (e) => {
         e.preventDefault();
         navigate('/manager');
+        setFormError("Invalid Login Id/Password");
     }
+    const [formError, setFormError] = React.useState('');
+
     return (
         <form className={props.classadd} onSubmit={e => handleSubmit(e)} >
             <h1 className="form--title">Login</h1>
-            <FormError message="Invalid Login Id/Password"/>
+            {formError.trim() === '' ? <div>{null}</div> : <FormError message={formError}/>}
             <FormInput type="text" pholder="Username or email"/>
             <FormInput type="password" pholder="Password" />
             <button className="form--button" type="submit">Continue</button>
@@ -49,19 +66,35 @@ function FormLogin(props)  {
     );
 }
 function FormCreateAccount(props) {
+    const [formError, setFormError] = React.useState('');
     const _onClick = (e) => {
         e.preventDefault();
         props.handleClick();
     }
+    const _onSubmit = (e) => {
+        e.preventDefault();
+        var regexPattern = /^[a-zA-Z0-9]+$/;
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(!regexPattern.test(e.target[0].value)){
+            setFormError('Invalid User Name');
+            return false;
+        }
+        else if(!mailformat.test(e.target[1].value)){
+            setFormError('Invalid Email ID');
+            return false;
+        }
+        console.log(e.target[0].value, e.target[1].value, e.target[2].value, e.target[3].value);
+        return true;
+    }
         return (
-            <form className={props.classadd}>
+            <form className={props.classadd} onSubmit={e => _onSubmit(e)}>
                 <h1 className="form--title">Create Account</h1>
-                <FormError message="Invalid Login Id/Password"/>
-                <FormInput type="text" pholder="Username or email"/>
-                <FormInput type="text" pholder="EmailAddress"/>
+                {formError.trim() === '' ? <div>{null}</div> : <FormError message={formError}/>}
+                <FormInput type="text" id="signupUsername" pholder="Username" />
+                <FormInput type="text" id='signupEmail' pholder="Email address" />
                 <FormInput type="password" pholder="Password" />
                 <FormInput type="password" pholder="Confirm password" />
-                <button className="form--button" type="submit">Continue</button>
+                <button className="form--button" type="submit" >Continue</button>
                 <p className="form--text">
                     <a className="form--link" href="./" id="linklogin" onClick={e => _onClick(e)} >Already have an account? Sign in</a>
                 </p>

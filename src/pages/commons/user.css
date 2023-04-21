@@ -15,7 +15,6 @@
   justify-content: space-between;
 }
 .main--home{
-  position: absolute;
   width: calc(100% - 300px);
   height: 100%;
   top: 0;
@@ -23,6 +22,9 @@
   background: #fff;
   border-radius: 1rem 0 0 1rem;
   z-index: 1000;
+}
+#root > .container-new > .main--home{
+  position: absolute;
 }
 .logo{
   display: block;
@@ -325,7 +327,7 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
   border-bottom: #f3f3f5 3px solid;
   margin-bottom: 2rem;
 }
-.top--bar--right > .button-4:first-child {
+.top--bar--right > .button-4{
   margin: 0px 10px 0px 0px;
 }
 .card--top--bar h3,
@@ -359,6 +361,7 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
 }
 .card--top--bar--details{
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 }
@@ -422,13 +425,15 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
 .waiting > p > i{
   color: #00bfff;
 }
-.card--bottom--border > .priority{
+.card--top--bar--details > .priority{
   margin: 4px 0px;
 }
 .page--table--column > .card--bottom--border:first-child
 {
   margin-bottom: 5px;
 }
+.page--table--column--left > .card,
+.page--table--column--right > .card,
 .page--table--column > .card{
   margin-bottom: 1.5rem;
 }
@@ -519,14 +524,12 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-.button-2 > span > img{
+.button-2 > span > img,
+.button-4 > span > img{
   width: 14px;
   height: 14px;
   object-fit: cover;
   object-position: center;
-}
-.card .ql-editor {
-  height: 100px !important;
 }
 .div--hidden{
   display: none;
@@ -539,9 +542,8 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
   padding: 10px 0;
   max-width: 100%;
   min-height: 50px;
-  height: auto;
+  height: 500px !important;
   z-index: 9;
-  right: 26px;
 }
 .drop--down--table  .card--bottom--border{
   background: #fff;
@@ -666,4 +668,41 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2p
   height: calc(100% - 50px);
   object-fit: cover;
   object-position: center;
+}
+.drop--down--table > .card{
+  height: 100%;
+}
+.drop--down--table > .card > .page--table{
+  overflow: auto;
+  height: 100%;
+}
+.drop--down--table > .card > .main--home{
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+}
+.drop--down--table.width--control{
+  width: calc(100% - 300px);
+}
+.page--table--column--left{
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  flex: 0 0 33%;
+  max-width: 33%;
+}
+.page--table--column--right{
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  flex: 0 0 67%;
+  max-width: 67%;
+}
+.card--bottom > .card--bottom--border .card--top--bar--details{
+  width: 100%;
+} 
+.spcl-height{
+  height: fit-content !important;
 }

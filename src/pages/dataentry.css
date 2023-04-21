@@ -46,6 +46,7 @@
 .dataentry--summary > p,
 .dataentry--css > p,
 label{
+  display: block;
   margin: 0;
   border: 0;
   padding: 0;
@@ -229,4 +230,10 @@ select option:focus{
 }
 .card--bottom--border > .page--table > .page--column--left > h4{
   margin: 22px 0px;
+}
+.page--column--right > .dataentry--issue--type{
+  margin: 0px 0px 12px 0px
+}
+.dataentry--summary > input{
+  margin: 0px 0px 30px 0px;
 }

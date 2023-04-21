@@ -114,7 +114,7 @@ function Reports(props) {
                         <div className="card--top--bar">
                             <h3>Avg. resolution time</h3>
                             <div className="card--top--bar--details">
-                                <p>{avgResolTime} Days</p>
+                                <p>{avgResolTime.toFixed(2)} Days</p>
                             </div>
                         </div>
                         <div className="card--bottom">
@@ -122,14 +122,14 @@ function Reports(props) {
                         </div>
                     </div>
                 </div>
-            <div className="card">
+            {props.stat ? <div>{null}</div> : <div className="card">
                 <div className="card--top--bar">
                     <h3>Tickets by assignee and status</h3>
                 </div>
                 <div className="card--bottom">
                     <Graph data={Object.values(cust)} labels={Object.keys(cust)} header='Tickets by assignee and status' axis='y' stacked={true} />
                 </div>
-            </div>
+            </div>}
             </div>
             </div>
         </div>
