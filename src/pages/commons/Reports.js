@@ -54,13 +54,13 @@ function Reports(props) {
     }
     const cust = {};
     for(const e of props.data){
-        if(e.stat.trim() === 'Waiting for support' || e.stat.trim() === 'In Progress'){
-            if(cust[e.personName]) cust[e.personName][0] += 1;
-            else cust[e.personName] = [1, 0];
-        }
-        else if(e.stat.trim() === 'Resolved'){
+        if(e.stat.trim() === 'Resolved'){
             if(cust[e.personName]) cust[e.personName][1] += 1;
             else cust[e.personName] = [0, 1];
+        }
+        else {
+            if(cust[e.personName]) cust[e.personName][0] += 1;
+            else cust[e.personName] = [1, 0];
         }
     }
     return(

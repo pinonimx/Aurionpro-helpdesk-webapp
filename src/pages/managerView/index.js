@@ -6,11 +6,12 @@ import MainHome from '../commons/MainHome';
 import RaiseARequest from '../commons/RaiseARequest';
 import Reports from '../commons/Reports';
 import sampletabledata from '../../assets/Data.json'
+import ReportSubMenu from '../commons/ReportSubMenu';
 
 export default function ManagerView() {
 
   const menudata = [
-    {msg: 'Reports', iconclass: "ri-file-chart-line"},
+    {msg: 'Reports & Dashboard', iconclass: "ri-file-chart-line"},
     {msg: 'Queues', iconclass: "ri-dashboard-line"},
     {msg: 'Raise a request', iconclass: "ri-inbox-unarchive-line"},
   ];
@@ -29,6 +30,10 @@ export default function ManagerView() {
     {msg: 'View entire queue'},
   ];
 
+  const reportpopqueue = [
+    {msg: 'Dashboard'},
+    {msg: 'Reports'},
+  ];
 
   const [filteredIssues, setFilteredIssues] = React.useState(
     sampletabledata.reduce(function (val, key){
@@ -39,13 +44,13 @@ export default function ManagerView() {
     }, [])
   );
   const [mainPageState, setMainPageState] = React.useState('In Progress');
-  const [mainPageState2, setMainPageState2] = React.useState('Reports');
+  const [mainPageState2, setMainPageState2] = React.useState('Reports & Dashboard');
   const handleMainPageState = (e) => {
     if(e === 'Queues'){
       setMainPageState2(e);
       e = 'Waiting for support';
       setMainPageState(e);
-    } else if( e === 'Reports' || e === 'Raise a request') {
+    } else if( e === 'Reports & Dashboard' || e === 'Raise a request' || e === 'Dashboard' || e === 'Reports') {
       setMainPageState2(e);
       setMainPageState('');
     } else {
@@ -81,8 +86,8 @@ export default function ManagerView() {
   }
   return (
     <div className="container-new">
-      <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue}/>
-      {mainPageState2 === 'Raise a request' ? <RaiseARequest stat={profiledata[0].stat}/> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} stat={profiledata[0].stat}/> : <Reports data={sampletabledata} />}
+      <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue} reportpopqueue={reportpopqueue}/>
+      {mainPageState2 === 'Reports' ? <ReportSubMenu data={sampletabledata} /> : mainPageState2 === 'Raise a request' ? <RaiseARequest stat={profiledata[0].stat}/> : mainPageState2 === 'Queues' ? <MainHome tabledata={mainPageState.trim() === 'View entire queue' ? sampletabledata : filteredIssues} title={mainPageState} unFilteredData={sampletabledata} pageState={mainPageState2} stat={profiledata[0].stat}/> : <Reports data={sampletabledata} />}
     </div>
   );
 

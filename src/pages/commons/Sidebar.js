@@ -18,10 +18,11 @@ function PopUpSubMenu(props){
 }
 function Menuitems(props){
   const [popUpMenu, setPopUpMenu] = React.useState(false);
+  const [popUpReport, setPopUpReport] = React.useState(false);
   const _onClick = (e, val) => {
     e.preventDefault();
     props.handleClick(val);
-    {val === 'Queues' ? setPopUpMenu(!popUpMenu) : setPopUpMenu(false)};
+    {val === 'Reports & Dashboard' ? setPopUpReport(!popUpReport) || setPopUpMenu(false) : val === 'Queues' ? setPopUpMenu(!popUpMenu) || setPopUpReport(false) : setPopUpMenu(false) || setPopUpReport(false)};
   }
   return(
     <div>
@@ -34,7 +35,7 @@ function Menuitems(props){
               </span>
               {val.msg}
             </a>
-            {val.msg === 'Queues' ? popUpMenu && <PopUpSubMenu menudata={props.menupopqueue} handleClick={props.handleClick}/> : <div>{undefined}</div>}
+            {val.msg === 'Reports & Dashboard' ? props.reportpopqueue && popUpReport && <PopUpSubMenu menudata={props.reportpopqueue} handleClick={props.handleClick}/> : val.msg === 'Queues' ? popUpMenu && <PopUpSubMenu menudata={props.menupopqueue} handleClick={props.handleClick}/> : <div>{undefined}</div>}
           </div>
         )
       })}
@@ -70,7 +71,7 @@ function PopUpMenuitems(props) {
 function Menu(props) {
   return(
     <div className="menu">
-      <Menuitems data={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue}/>
+      <Menuitems data={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue} reportpopqueue={props.reportpopqueue}/>
     </div>
   );
 }
@@ -117,7 +118,7 @@ function Sidebar(props) {
       <a href="#" className="logo">
         <img src={cimg} alt="logo"></img>
       </a>
-      <Menu menudata={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue}/>
+      <Menu menudata={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue} reportpopqueue={props.reportpopqueue}/>
       <Profile profiledata={props.profiledata[0]} />
     </div>
   );

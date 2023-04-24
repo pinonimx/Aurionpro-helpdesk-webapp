@@ -9,7 +9,7 @@ import data from '../../assets/Data.json';
 
 export default function UserView(){
   const menudata = [
-    {msg: 'Reports', iconclass: "ri-file-chart-line"},
+    {msg: 'Reports & Dashboard', iconclass: "ri-file-chart-line"},
     {msg: 'Queues', iconclass: "ri-dashboard-line"},
     {msg: 'Raise a request', iconclass: "ri-inbox-unarchive-line"},
   ];
@@ -39,13 +39,13 @@ export default function UserView(){
     }, [])
   );
   const [mainPageState, setMainPageState] = React.useState('In Progress');
-  const [mainPageState2, setMainPageState2] = React.useState('Reports');
+  const [mainPageState2, setMainPageState2] = React.useState('Reports & Dashboard');
   const handleMainPageState = (e) => {
     if(e === 'Queues'){
       setMainPageState2(e);
       e = 'In Progress';
       setMainPageState(e);
-    } else if( e === 'Reports' || e === 'Raise a request') {
+    } else if( e === 'Reports & Dashboard' || e === 'Raise a request') {
       setMainPageState2(e);
       setMainPageState('');
     } else {
