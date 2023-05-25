@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /*.bak
+/src/_helpers/fake-backend.js
 
 # testing
 /coverage

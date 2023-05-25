@@ -46,7 +46,10 @@ function Menuitems(props){
 function PopUpMenuitems(props) {
   const _onClick = (e, val) => {
     e.preventDefault();
-    if(val === 'All issues in progress'){
+    if(val === 'logout'){
+      props.logout();
+    }
+    else if(val === 'All issues in progress'){
       props.handleClick('In Progress');
     }
     else if(val === 'All resolved issues'){
@@ -76,7 +79,7 @@ function Menu(props) {
   );
 }
 
-function PopUpMenu(){
+function PopUpMenu(props){
   const menudata = [
     {msg: "logout", iconclass: "ri-logout-box-r-line"},
     {msg: "Profile Settings", iconclass: "ri-user-settings-line"},
@@ -85,7 +88,7 @@ function PopUpMenu(){
     <div className='drop--down--div'>
       <ul className="drop--down">
         <li>
-          <PopUpMenuitems data={menudata[0]} />
+          <PopUpMenuitems logout={props.logout} data={menudata[0]} />
         </li>
         <li>
           <PopUpMenuitems data={menudata[1]} />
@@ -97,16 +100,17 @@ function PopUpMenu(){
 
 function Profile(props){
   const [popUpMenu, setPopUpMenu] = React.useState(false);
+  const logo = props.profiledata.logo;
   return(
     <div>
-      {popUpMenu && PopUpMenu()}
+      {popUpMenu && <PopUpMenu logout={props.logout} />}
       <button className="profile" onClick={ () => setPopUpMenu(!popUpMenu) } >
           <div className="profile-img">
-              <img src={props.profiledata.img} alt="profile" />
+              <img src={logo} alt="profile" />
           </div>
           <div className="name">
-              <h1>{props.profiledata.name}</h1>
-              <p>{props.profiledata.stat}</p>
+              <h1>{props.profiledata.username}</h1>
+              <p>{props.profiledata.role}</p>
           </div>
       </button>
     </div>
@@ -119,7 +123,7 @@ function Sidebar(props) {
         <img src={cimg} alt="logo"></img>
       </a>
       <Menu menudata={props.menudata} handleClick={props.handleClick} menupopqueue={props.menupopqueue} reportpopqueue={props.reportpopqueue}/>
-      <Profile profiledata={props.profiledata[0]} />
+      <Profile profiledata={props.profiledata} logout={props.logout} />
     </div>
   );
 }
