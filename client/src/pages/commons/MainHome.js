@@ -122,7 +122,7 @@ function CreateIncident(props) {
             </button>
           </div>
         </div>
-          <DataEntryForm priority={'Important'} status={'In Progress'} createIncident={true} close={props.close} data={props.data} filteredData={props.filteredData} id={props.id} stat={props.stat} link={props.link} />
+          <DataEntryForm creator={props.creator} priority={'Important'} status={'In Progress'} createIncident={true} close={props.close} data={props.data} filteredData={props.filteredData} id={props.id} stat={props.stat} link={props.link} />
         </div>
       </div>
     </div>
@@ -412,7 +412,7 @@ function MainHome(props){
       {closure && <ClosureComment callcloseticket={closeticket} close={close}/>}
       {editStatus && <EditTicket detailView={setDetailViewData} data={props.data} filteredData={updatefilter} details={detailViewData} edit={edit} stat={props.stat}/>}
       {linkIssueStatus && <ListOfIssues unFilteredData={props.unFilteredData} handleChange={handleLink} linkIssue={linkIssue}/>}
-      {createIncidentStatus && <CreateIncident link={detailViewData.link} data={props.data} filteredData={updatefilter} close={createIncident} stat={props.stat} id={detailViewData.id}/>}
+      {createIncidentStatus && <CreateIncident creator={profiledata.useremail} link={detailViewData.link} data={props.data} filteredData={updatefilter} close={createIncident} stat={props.stat} id={detailViewData.id}/>}
       <div className={detailView ? 'card--top--bar card--top--bar--margin' : 'card--top--bar'}>
         <div className='card--top--bar--details'>
           {searchData == null ? <h3>{props.pageState} {props.title.trim() === '' ? '' : <>&gt;</>} {props.title}</h3> : <h3>Search {props.title.trim() === '' ? '' : <>&gt;</>} {props.title}</h3> }

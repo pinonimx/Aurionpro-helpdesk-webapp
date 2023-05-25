@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const Role = require('_helpers/role');
 require('dotenv').config();
 const logo = 'logos/siddharth.jpg'
+const nodemailer = require('nodemailer');
 
 // create a MySQL connection pool
 const pool = mysql.createPool({
@@ -33,7 +34,25 @@ module.exports = {
     resumereopen,
     getLinkedIssues
 };
+const globalfrom = "from-example@aurionpro.com";
+function emailjs(message) {
+    try {
 
+        const transporter = nodemailer.createTransport({
+            host: "sandbox.smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: "4bd798b2a555c1",
+                pass: "ff465583422ba3"
+            }
+        });
+        transporter.sendMail(message)
+            .then(info => console.log(info))
+            .catch(e => console.error(e));
+    } catch (e){
+        console.error(e);
+    }
+}
 async function authenticate({ username, password }) {
     try{
         const [rows] = await pool.query('select * from users where useremail = ?', [username]);
@@ -69,11 +88,19 @@ async function register({ name, email, phone, password }) {
         const connection = await pool.getConnection();
         const [results] = await connection.query(query, userData);
         connection.release();
+        const message = {
+            from: globalfrom,
+            to: [email],
+            subject: "Registration Successful",
+            text: "Hey ".concat(name, " we recieved your request to register with us\nWe have done the needful.\nHowever, if you are an employee or manager of this organization then please contact your database administrator to give you the required permissions to view the entire application.")
+        }
+        emailjs(message);
         return results;
     } catch (error) {
         console.log(error);
         throw error;
     }
+    
 }
 
 async function reportData(id) {
@@ -351,7 +378,25 @@ async function createorupdateticket(ticketData) {
         // console.log('params: ', params);
         // console.log('query: ', query);
         await pool.query(query, params);
-        
+        let tid;
+        if(ticketId){
+            tid = ticketId;
+        } else {
+            tid = ticketno;
+        }
+        let strend;
+        if(assignto){
+            strend = '\nand has been assigned to '.concat(assignto);
+        } else {
+            strend = '\nWe will shortly assign the issue to someone.\n\nThankyou for your paitence'
+        }
+        const message = {
+            from: globalfrom,
+            to: [email, assigntoemail],
+            subject: "Ticket with id ".concat(tid, " generation/updation successfull"),
+            text: "Hey ".concat(name, " we just wanted to let you know your ticket with id: ", tid, " has been successfully generated/updated\n\nIt's current status is ", statusOption, strend)
+        }
+        emailjs(message);
         if(ticketId){
             return ticketId; // Return the ticketId after successful creation/update
         } else {
@@ -384,7 +429,19 @@ async function createticket(ticketData) {
       `;
         const params = [ticketId, stateNameOption, bankName, name, email, mobNo, summary, priorityOption, categoryOption, projectNameOption, assignto, assigntoemail, statusOption, value, district, tehshil, khasraNo, village];
         await pool.query(query, params);
-
+        let strend;
+        if(assignto){
+            strend = '\nand has been assigned to '.concat(assignto);
+        } else {
+            strend = '\nWe will shortly assign the issue to someone.\n\nThankyou for your paitence'
+        }
+        const message = {
+            from: globalfrom,
+            to: [email, assigntoemail],
+            subject: "Ticket with id ".concat(ticketId, " generation successfull"),
+            text: "Hey ".concat(name, " we just wanted to let you know your ticket with id: ", ticketId, " has been successfully generated\n\nIt's current status is ", statusOption, strend)
+        }
+        emailjs(message);
         return ticketId; // Return the ticketId after successful creation/update
     } catch (error) {
         console.error(error);
@@ -394,7 +451,7 @@ async function createticket(ticketData) {
 
 async function createIncident(ticketData) {
     try {
-        const { value, summary, assigntoemail, projectNameOption, categoryOption, priorityOption, statusOption, link } = ticketData;
+        const { value, summary, assigntoemail, projectNameOption, categoryOption, priorityOption, statusOption, link, creator } = ticketData;
         const assigneeQuery = 'SELECT username FROM users WHERE useremail = ?';
         const [assigneeRows] = await pool.query(assigneeQuery, [assigntoemail]);
         const assignto = assigneeRows[0]?.username || null;
@@ -412,7 +469,19 @@ async function createIncident(ticketData) {
       `;
         const params = [ticketId, summary, priorityOption, categoryOption, projectNameOption, assignto, assigntoemail, statusOption, link, value];
         await pool.query(query, params);
-
+        let strend;
+        if(assignto){
+            strend = '\nand has been assigned to '.concat(assignto);
+        } else {
+            strend = '\nhowever it hasn\'t been assigned to anyone yet.'
+        }
+        const message = {
+            from: globalfrom,
+            to: [creator, assigntoemail],
+            subject: "Major incident with Ticket with id ".concat(ticketId, " generated"),
+            text: "A major incident has been created\n\nThe ticket ID of this major incident is: ".concat(ticketId, strend)
+        }
+        emailjs(message);
         return ticketId; // Return the ticketId after successful creation/update
     } catch (error) {
         console.error(error);
@@ -430,9 +499,17 @@ async function assigntoself({ticketno, assigntoemail}){
         const [result] = await connection.query(updateQuery, [assignto, assigntoemail, 'In Progress', ticketno]);
         connection.release();
         console.log(`Updated assignee for ticket with id ${ticketno}`);
-
+        
         const query = 'SELECT * from ticketdata where id = ?'
         const [rows] = await pool.query(query, [ticketno]);
+        console.log(rows);
+        const message = {
+            from: globalfrom,
+            to: [rows[0].assigneeemail, assigntoemail],
+            subject: "Ticket with id ".concat(ticketno, " has been assigned to ", assignto),
+            text: "Great news!!\n\nYour ticket with ID ".concat(ticketno, ' has been assigned to ', assignto,'\nThey will get in touch with you shortly')
+        }
+        emailjs(message);
         return rows;
     }
     catch(error){
@@ -450,6 +527,14 @@ async function closeTicket({ticketno, value}){
         
         const retquery = 'SELECT * from ticketdata where id = ?'
         const [rows] = await pool.query(retquery, [ticketno]);
+        const mailto = [rows[0].assigneeemail, rows[0].assigntoemail];
+        const message = {
+            from: globalfrom,
+            to: mailto,
+            subject: "Ticket with id ".concat(ticketno, " has been successfully resolved"),
+            html: "<p>Great news!!<br><br>Your ticket with ID ".concat(ticketno, ' has been successfully resolved and closed on ', rows[0].closed, "closure comments</p>", value)
+        }
+        emailjs(message);
         return rows;
     } catch(error){
         console.error('Error closing the ticket: ', error);
@@ -467,6 +552,14 @@ async function resumereopen({ticketno, status, work}){
         
         const retquery = 'SELECT * from ticketdata where id = ?'
         const [rows] = await pool.query(retquery, [ticketno]);
+        const mailto = [rows[0].assigneeemail, rows[0].assigntoemail];
+        const message = {
+            from: globalfrom,
+            to: mailto,
+            subject: "Ticket with id ".concat(ticketno, " has been successfully reopened"),
+            text: "Your ticket with ID ".concat(ticketno, ' and title ', rows[0].title, ' has been successfully reopened')
+        }
+        emailjs(message);
         return rows;
     } catch(error){
         console.error('Error closing the ticket: ', error);

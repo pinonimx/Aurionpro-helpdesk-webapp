@@ -1,5 +1,6 @@
 import React from 'react';
 import nothingtosee from '../../assets/2903540.webp';
+import './user.css';
 
 function Nothing(){
   return(

@@ -53,7 +53,7 @@ export default function ManagerView( props ) {
         }
         if(e === 'All unassigned issues'){
           setFilteredIssues(data.reduce(function (val, key){
-            if(key.assignto?.trim() === ''){
+            if(!key.assignto?.trim()){
               val.push(key)
             }
             return val;

@@ -1,6 +1,7 @@
 import React from 'react';
 import nothingtosee from '../../assets/2903540.webp';
 import userpic from '../../assets/user.svg';
+import './user.css';
 function TopRightBar(props) {
   return (
     <div className='top--bar--right'>
@@ -11,7 +12,7 @@ function TopRightBar(props) {
       {!props.assignto?.trim() && props.stat !== 'User' ? <button className='button-4' onClick={() => props.assigntoself()}>
         <span><img src={userpic} alt=''></img></span>
         Assign to self
-      </button> : <div>{null}</div>}
+      </button> : null}
       <button className='button-4 button4--specials' onClick={() => props.close()}>
         <span><i className="ri-check-double-line"></i></span>
         Close this issue

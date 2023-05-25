@@ -41,8 +41,7 @@ export function DataEntryForm(props) {
     const [priorityOption, setPriorityOption] = useState(props.priority ? props.priority : '');
     const [statusOption, setStatusOption] = useState(props.status ? props.status : '');
     const [bankName, setBankName] = useState(props.bankName ? props.bankName : '');
-    const [link, setLink] = useState(props.link?.trim() ? !props.link?.includes(props.id) ? props.link.concat(props.id, ',') : null : null);
-    // console.log(ticketno);
+    const [link, setLink] = useState(props.link?.trim() ? props.link?.includes(props.id) ? props.link.concat(props.id, ',') : null : null);
     const handleChange = e => {
         if(e.target.id === 'summary') {
             setSummary(e.target.value)
@@ -215,7 +214,8 @@ export function DataEntryForm(props) {
             bankName: bankName,
             priorityOption: priorityOption,
             statusOption: statusOption,
-            link: link
+            link: link,
+            creator: props.creator
         };
         userService.createorupdateticket(ticketData)
             .then(msg => {
