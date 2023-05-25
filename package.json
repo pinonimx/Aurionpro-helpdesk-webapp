@@ -1,0 +1,12 @@
+{
+  "name": "aurionpro_helpdesk_application",
+  "version": "1.0.0",
+  "description": "Help desk issue tracker for aurionpro",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "cd client && npm run build && cd ../server && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Siddharth Kumar Jha",
+  "license": "ISC"
+}
