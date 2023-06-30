@@ -1,0 +1,3 @@
+*.mwb*
+*.sql
+!createAllTables.sql
