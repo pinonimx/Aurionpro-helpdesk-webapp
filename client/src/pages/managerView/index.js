@@ -50,6 +50,7 @@ export default function ManagerView( props ) {
           setMainPageState('');
         } else {
           setMainPageState(e);
+          setMainPageState2('Queues');
         }
         if(e === 'All unassigned issues'){
           setFilteredIssues(data.reduce(function (val, key){
@@ -100,7 +101,7 @@ export default function ManagerView( props ) {
   return (
     <div className="container-new">
       <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue} reportpopqueue={reportpopqueue} logout={props.logout} />
-      {mainPageState2 === 'Reports' ? <ReportSubMenu /> : mainPageState2 === 'Raise a request' ? <RaiseARequest data={setData} stat={profiledata.role}/> : mainPageState2 === 'Queues' ? <MainHome data={setData} filteredData={setFilteredIssues} tabledata={mainPageState.trim() === 'View entire queue' ? data : filteredIssues} title={mainPageState} unFilteredData={data} pageState={mainPageState2} stat={profiledata.role}/> : <Reports />}
+      {mainPageState2 === 'Reports' ? <ReportSubMenu /> : mainPageState2 === 'Raise a request' ? <RaiseARequest data={setData} stat={profiledata.role} handleClick={handleMainPageState}/> : mainPageState2 === 'Queues' ? <MainHome data={setData} filteredData={setFilteredIssues} tabledata={mainPageState.trim() === 'View entire queue' ? data : filteredIssues} title={mainPageState} unFilteredData={data} pageState={mainPageState2} stat={profiledata.role}/> : <Reports />}
     </div>
   );
 

@@ -10,7 +10,7 @@ import { Role } from '../../_helpers';
 function Options(props){
     return(
         <div className='dataentry--issue--type'>
-            {props.label.trim() === 'stateName' ? <div>{null}</div> : <label htmlFor={props.label}> {props.label !== 'projectName' ? props.label : 'Project Name'} {props.notReq ? <em>{null}</em> : <em>*</em>} </label>}
+            {props.label.trim() === 'stateName' ? <div>{null}</div> : <label htmlFor={props.label}> {props.label === 'projectName' ? 'Project Name' : props.label === 'category' ? 'Issue' : props.label === 'Priority' ? 'Category' : props.label} {props.notReq ? <em>{null}</em> : <em>*</em>} </label>}
             <select id={props.label} onChange={props.onOptionChangeHandler} value={props.value}>
                 <option value='' disabled='disabled' selected>{props.label.trim() === 'stateName' ? 'Please select a state' : 'Please choose one option'}</option>
                 {props.optionTypes.map((option, index) => {
@@ -42,35 +42,44 @@ export function DataEntryForm(props) {
     const [statusOption, setStatusOption] = useState(props.status ? props.status : '');
     const [bankName, setBankName] = useState(props.bankName ? props.bankName : '');
     const [link, setLink] = useState(props.link?.trim() ? props.link?.includes(props.id) ? props.link.concat(props.id, ',') : null : null);
+    const phoneFormat = /^(?:[0-9]+|)$/;
+    const Requester = /^(?:([a-zA-Z\s]+)|)$/;
+    const khasra= /^(?:([0-9]+(\/[0-9]+)+)|([0-9]+\/)+|[0-9]+|)$/;
+    const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const handleChange = e => {
         if(e.target.id === 'summary') {
             setSummary(e.target.value)
         }
-        else if(e.target.id === 'name'){
+        else if(e.target.id === 'name' && Requester.test(e.target.value)){
             setName(e.target.value);
         }
         else if(e.target.id === 'email'){
             setEmail(e.target.value);
         }
-        else if(e.target.id === 'mobno'){
+        else if(e.target.id === 'mobno' && e.target.value.length < 11 && phoneFormat.test(e.target.value)){
             setMobNo(e.target.value);
         }
-        else if(e.target.id === 'district'){
+        else if(e.target.id === 'district' && Requester.test(e.target.value)){
             setDistrict(e.target.value);
         }
-        else if(e.target.id === 'tehshil'){
+        else if(e.target.id === 'tehshil' && Requester.test(e.target.value)){
             setTehshil(e.target.value);
         }
-        else if(e.target.id === 'khasra'){
+        else if(e.target.id === 'khasra' && khasra.test(e.target.value)){
             setKhasraNo(e.target.value);
         }
-        else if(e.target.id === 'village'){
+        else if(e.target.id === 'village' && Requester.test(e.target.value)){
             setVillage(e.target.value);
         }
         else if(e.target.id === 'assigntoemail'){
             setAssigntoemail(e.target.value);
+            if(e.target.value?.trim()){
+                setStatusOption('In Progress');
+            } else {
+                setStatusOption('Waiting for support')
+            }
         }
-        else if(e.target.id === 'bankname'){
+        else if(e.target.id === 'bankname' && Requester.test(e.target.value)){
             setBankName(e.target.value);
         }
         // console.log(e.target);
@@ -159,8 +168,6 @@ export function DataEntryForm(props) {
     }
     const _onSubmit = (e) => {
         e.preventDefault();
-        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        const phoneFormat = /^([0-9]{3}[- ]?){2}[0-9]{4}$/;
         if (!props.createIncident) {
             if (name.length >= 0 && name.length < 5) {
                 alert('Invalid Name');
@@ -219,7 +226,7 @@ export function DataEntryForm(props) {
         };
         userService.createorupdateticket(ticketData)
             .then(msg => {
-                if(props.stat === Role.Manager){
+                if(ticketno && props.stat === Role.Manager){
                     userService.getAll()
                         .then(data => {
                             props.data(data);
@@ -239,15 +246,16 @@ export function DataEntryForm(props) {
                             alert(alertmsg);
                         });
                 } else {
-                    userService.getById(props.cuid)
-                        .then(data => {
-                            props.data(data);
-                        })
-                        .catch(e => {
-                            const alertmsg = 'Error creating/updating the ticket database: '.concat(e);
-                            console.log(e);
-                            alert(alertmsg);
-                        });
+                    // userService.getById(props.cuid)
+                    //     .then(data => {
+                    //         props.data(data);
+                    //     })
+                    //     .catch(e => {
+                    //         const alertmsg = 'Error creating/updating the ticket database: '.concat(e);
+                    //         console.log(e);
+                    //         alert(alertmsg);
+                    //     });
+                    props.handleClick('View entire queue')
                 }
                 const alertmsg = msg.message.concat(' ticket id: ', msg.ticketId);
                 alert(alertmsg);
@@ -302,7 +310,7 @@ export function DataEntryForm(props) {
             {props.createIncident ? <div>{null}</div> : <div className='card--bottom--border'>
                 <div className='page--table'>
                     <div className='page--column--left'>
-                        {props.stat === Role.User ? <h4>Your Name</h4> : <h4>Customer Name</h4>}
+                        {props.stat === Role.User ? <h4>Your Name</h4> : <h4>Requester Name</h4>}
                         <h4>Email</h4>
                         <h4>Mob. No.</h4>
                         <h4>State</h4>
@@ -381,7 +389,7 @@ export function DataEntryForm(props) {
                     </div>
                 </div>
             </div>}
-            {props.stat === 'Manager' ?
+            {props.stat !== 'User' ?
             <div className='dataentry--summary'>
                 <p>Assigned To</p>
                 <input
@@ -416,7 +424,7 @@ function RaiseARequest(props){
             <div className='card--top--bar'>
                 <h3>Raise a request</h3>
             </div>
-            <DataEntryForm cuid={currentUser.id} data={props.data} stat={status} name={name} mobNo={mobNo} email={email} assigntoemail={assigntoemail} priority={'Normal'} status={status !== Role.User ? 'In Progress' : 'Waiting for support'} />
+            <DataEntryForm cuid={currentUser.id} data={props.data} stat={status} name={name} mobNo={mobNo} email={email} assigntoemail={assigntoemail} priority={'Normal'} status={status !== Role.User ? 'In Progress' : 'Waiting for support'} handleClick={props.handleClick} />
         </div>
     );
 }

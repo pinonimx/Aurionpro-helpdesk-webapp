@@ -70,7 +70,7 @@ function ListOfIssues(props){
     setSearchBasis(e.target.value);
   };
   return(
-    <div className='drop--down--table'>
+    <div className='drop--down--table width--control'>
       <div className='card'>
         <div className='card--top--bar'>
           <div className='card--top--bar--details'>
@@ -259,17 +259,13 @@ function MainHome(props){
       const requestData = { id: props.tabledata[key].id, newlink: newlink };
       userService.linkedissues(requestData)
         .then(() => {
+          userService.getLinkedIssues({link: props.tabledata[key].link})
+          .then(data => setParsedData(data))
+          .catch(err => alert('Error occured fetching linked issues from DB', err));
           console.log('Linked issues updated successfully');
-          setParsedData(props.unFilteredData.reduce(function (array, element) {
-            if (props.tabledata[key].link.includes(element.id.trim())) {
-              array.push(element);
-            }
-            return array;
-          }, [])
-          );
         })
         .catch(err => {
-          alert('Error updating linked issues:', err);
+          console.log('Error updating linked issues:', err);
         });
     }
   }

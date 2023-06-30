@@ -68,7 +68,7 @@ function Card(props) {
             <p>{props.details.id}</p>
           </div>
           <div className='card--top--bar--details'>
-            <h4>Category</h4>
+            <h4>Issue</h4>
             <p>{props.details.category.trim()}</p>
           </div>
           <div className='card--top--bar--details'>
@@ -90,7 +90,7 @@ function Card(props) {
             </div>
           </div>
           <div className=' card--top--bar--details'>
-            <h4>Priority</h4>
+            <h4>Category</h4>
             <ul className='priority'>
               <li className={props.details.priority === 'Urgent' ? 'urg' : props.details.priority === 'Important' ? 'imp' : 'nor'}>
                 <span>{props.details.priority.trim() === '' ? 'Normal' : props.details.priority}</span>
@@ -221,11 +221,11 @@ function LinkedIssues(props) {
     <div className='card'>
       <div className='card--top--bar'>
         <h3>Linked Issues</h3>
-        {props.stat === 'Manager' && props.prog !== 'Resolved' ? <div className='card--top--bar--details'>
-          <button className='button-2' type='button' onClick={() => props.createIncident()}>
+        {props.stat !== 'User' && props.prog !== 'Resolved' ? <div className='card--top--bar--details'>
+          {props.stat === 'Manager' ? <button className='button-2' type='button' onClick={() => props.createIncident()}>
             <span><img src={userpic} alt=''></img></span>
             Create incident
-          </button>
+          </button> : <div>{null}</div>}
           <button className='button-2' onClick={() => linkIssue()}>
             <span><i className="ri-link-m"></i></span>
             Link issue

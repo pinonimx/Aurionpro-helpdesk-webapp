@@ -253,7 +253,7 @@ async function linkedissues({ id, newlink }) {
 
 async function getAll() {
     try{
-        const [rows] = await pool.query('SELECT * FROM ticketdata');
+        const [rows] = await pool.query('SELECT * FROM ticketdata order by created desc');
         return rows;
     } catch(error){
         console.error(error);
@@ -282,11 +282,11 @@ async function getById(id){
         const user = await getUsersById(id);
         let data;
         if (user.role === Role.User) {
-            const [rows] = await pool.query('Select * from ticketdata where assigneeemail = ? OR mobilenum = ?', [user.useremail, user.mobilenum]);
+            const [rows] = await pool.query('Select * from ticketdata where assigneeemail = ? OR mobilenum = ? order by created desc', [user.useremail, user.mobilenum]);
             data = rows;        
         }
         else {
-            const [rows] = await pool.query('SELECT * FROM ticketdata WHERE assigntoemail = ? OR assigntoemail IS NULL OR assigntoemail = ""', [user.useremail]);
+            const [rows] = await pool.query('SELECT * FROM ticketdata WHERE assigntoemail = ? OR assigntoemail IS NULL OR assigntoemail = "" order by created desc', [user.useremail]);
             data = rows;
         }
         return data;

@@ -10,7 +10,7 @@ router.post('/create', register);
 router.get('/formdata', authorize([Role.User, Role.Employee, Role.Manager]), formData);
 router.get('/reportData/:id', authorize([Role.User, Role.Employee, Role.Manager]), reportData);
 router.get('/reportsubmenu', authorize([Role.Employee, Role.Manager]), reportSubMenu);
-router.post('/linkedissues', authorize([Role.Manager]), linkedissues);
+router.post('/linkedissues', authorize([Role.Employee, Role.Manager]), linkedissues);
 router.post('/createorupdateticket', authorize([Role.User, Role.Employee, Role.Manager]), createorupdateticket);
 router.post('/assigntoself', authorize([Role.User, Role.Employee, Role.Manager]), assigntoself);
 router.post('/closeticket', authorize([Role.User, Role.Employee, Role.Manager]), closeTicket)

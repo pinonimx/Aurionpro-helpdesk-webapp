@@ -39,6 +39,7 @@ export default function UserView( props ){
       setMainPageState('');
     } else {
       setMainPageState(e);
+      setMainPageState2('Queues');
     }
     
     setFilteredIssues(data.reduce(function (val, key){
@@ -73,7 +74,7 @@ export default function UserView( props ){
   return (
     <div className="container-new">
       <Sidebar menudata={menudata} profiledata={profiledata} handleClick={handleMainPageState} menupopqueue={menupopqueue} logout={props.logout} />
-      {mainPageState2 === 'Raise a request' ? <RaiseARequest data={setData} stat={profiledata.role}/> : mainPageState2 === 'Queues' ? <MainHome data={setData} filteredData={setFilteredIssues} tabledata={mainPageState.trim() === 'View entire queue' ? data : filteredIssues} title={mainPageState} unFilteredData={data} pageState={mainPageState2} stat={profiledata.role} /> : <Reports data={data} stat={profiledata.status} />}
+      {mainPageState2 === 'Raise a request' ? <RaiseARequest data={setData} stat={profiledata.role} handleClick={handleMainPageState}/> : mainPageState2 === 'Queues' ? <MainHome data={setData} filteredData={setFilteredIssues} tabledata={mainPageState.trim() === 'View entire queue' ? data : filteredIssues} title={mainPageState} unFilteredData={data} pageState={mainPageState2} stat={profiledata.role} /> : <Reports data={data} stat={profiledata.status} />}
     </div>
   );
 }
